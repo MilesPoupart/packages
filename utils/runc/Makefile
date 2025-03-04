@@ -1,14 +1,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=runc
-PKG_VERSION:=1.1.14
+PKG_VERSION:=1.2.5
 PKG_RELEASE:=1
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/opencontainers/runc/tar.gz/v${PKG_VERSION}?
-PKG_HASH:=563cf57c38d2e7149234dbe6f63ca0751eb55ef8f586ed12a543dedc1aceba68
+PKG_HASH:=1ae11980477b789732915dfd7ba4246f5babe5ff76a31021d36365007d9713b0
 
 PKG_MAINTAINER:=Gerard Ryan <G.M0N3Y.2503@gmail.com>
 
