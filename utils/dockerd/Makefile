@@ -1,8 +1,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dockerd
-PKG_VERSION:=28.3.0
-PKG_RELEASE:=$(AUTORELEASE)
+PKG_VERSION:=28.3.2
+PKG_RELEASE:=1
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
@@ -10,8 +10,8 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_GIT_URL:=github.com/moby/moby
 PKG_GIT_REF:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://codeload.$(PKG_GIT_URL)/tar.gz/$(PKG_GIT_REF)?
-PKG_HASH:=99fe19d2a15d3cc56b9bd5e782664a85c2a7027566a4acc5c07ec8d42666362b
-PKG_GIT_SHORT_COMMIT:=265f709 # SHA1 used within the docker executables
+PKG_HASH:=e4828e32e474cef1b78f40278211648300071399c7498252dfe0b96e789b8a31
+PKG_GIT_SHORT_COMMIT:=e77ff99 # SHA1 used within the docker executables
 
 PKG_MAINTAINER:=Gerard Ryan <G.M0N3Y.2503@gmail.com>
 
@@ -22,7 +22,7 @@ PKG_USE_MIPS16:=0
 GO_PKG:=github.com/docker/docker
 
 include $(INCLUDE_DIR)/package.mk
-include ../../lang/golang/golang-package.mk
+include $(TOPDIR)/feeds/packages/lang/golang/golang-package.mk
 
 define Package/dockerd/config
   source "$(SOURCE)/Config.in"
@@ -46,7 +46,8 @@ define Package/dockerd
     +kmod-nf-ipvs \
     +kmod-veth \
     +tini \
-    @!(mips||mipsel)
+    +uci-firewall \
+    @!(mips||mips64||mipsel)
   USERID:=docker:docker
   MENU:=1
 endef
@@ -59,7 +60,6 @@ define Package/dockerd/description
 The Docker CE Engine.
 endef
 
-
 TAR_OPTIONS:=--strip-components 1 $(TAR_OPTIONS)
 TAR_CMD=$(HOST_TAR) -C $(1) $(TAR_OPTIONS)
 TARGET_LDFLAGS += $(if $(CONFIG_USE_GLIBC),-lc -lgcc_eh)
@@ -71,7 +71,7 @@ define EnsureVendoredVersion
 		DEP_VER=$$$$( grep --only-matching --perl-regexp '(?<=PKG_VERSION:=)(.*)' "$(1)" ); \
 		VEN_VER=$$$$( grep --only-matching --perl-regexp '(?<=_VERSION:=v)(.*)(?=})' "$(PKG_BUILD_DIR)/hack/dockerfile/install/$(2)" ); \
 		if [ "$$$${VEN_VER}" != "$$$${DEP_VER}" ]; then \
-			echo "ERROR: Expected 'PKG_VERSION:=$$$${VEN_VER}' in '$(1)', found 'PKG_VERSION:=$$$${DEP_VER}'"; \
+			echo "ERROR: $(PKG_NAME) Expected 'PKG_VERSION:=$$$${VEN_VER}' in '$(1)', found 'PKG_VERSION:=$$$${DEP_VER}'"; \
 			exit 1; \
 		fi \
 	)
@@ -151,12 +151,6 @@ define Package/dockerd/install
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/dockerd.init $(1)/etc/init.d/dockerd
-	
-	if [ ! -f $(TOPDIR)/feeds/luci/package.json ]; then \
-		$(INSTALL_DIR) $(1)/etc/uci-defaults; \
-		$(INSTALL_BIN) ./files/dockerd.sh $(1)/etc/init.d/dockerd; \
-		$(INSTALL_BIN) ./files/dockerd.defaults $(1)/etc/uci-defaults/80-dockerd; \
-	fi
 
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_CONF) ./files/etc/config/dockerd $(1)/etc/config/dockerd
