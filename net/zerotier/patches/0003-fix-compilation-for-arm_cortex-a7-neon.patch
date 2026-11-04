@@ -1,7 +1,7 @@
-From 71ed5b791fb0f7bfe1f564726fdc979b71313fbe Mon Sep 17 00:00:00 2001
+From 02bd2334eb3d623f4af0afb5ec14e90410ad309b Mon Sep 17 00:00:00 2001
 From: Moritz Warning <moritzwarning@web.de>
-Date: Tue, 17 Sep 2024 15:38:01 +0200
-Subject: [PATCH 3/5] fix compilation for arm_cortex a7 neon
+Date: Fri, 12 Sep 2025 10:35:32 +0200
+Subject: [PATCH 3/6] fix compilation for arm_cortex a7 neon
 
 ---
  node/Constants.hpp | 2 +-
