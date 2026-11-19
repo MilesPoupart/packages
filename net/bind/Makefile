@@ -9,7 +9,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bind
-PKG_VERSION:=9.20.15
+PKG_VERSION:=9.20.29
 PKG_RELEASE:=1
 USERID:=bind=57:bind=57
 
@@ -22,7 +22,7 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:= \
 	https://www.mirrorservice.org/sites/ftp.isc.org/isc/bind9/$(PKG_VERSION) \
 	https://ftp.isc.org/isc/bind9/$(PKG_VERSION)
-PKG_HASH:=d62b38fae48ba83fca6181112d0c71018d8b0f2ce285dc79dc6a0367722ccabb
+PKG_HASH:=587029508b3b1b43229fae416c97e5543aba45809cefaca98a5004a02a5736c1
 
 PKG_INSTALL:=1
 PKG_USE_MIPS16:=0
@@ -49,6 +49,7 @@ define Package/bind/Default
   SECTION:=net
   CATEGORY:=Network
   DEPENDS:=+bind-libs +@OPENSSL_WITH_EC
+  EXTRA_DEPENDS:=bind-libs (=$(PKG_VERSION)-$(PKG_RELEASE))
   TITLE:=bind
   URL:=https://www.isc.org/software/bind
   SUBMENU:=IP Addresses and Names
@@ -78,6 +79,7 @@ define Package/bind-server
   TITLE+= DNS server
   DEPENDS+= +libcap \
 	+bind-rndc
+  EXTRA_DEPENDS+=, bind-rndc (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/bind-server/config
@@ -87,6 +89,7 @@ endef
 define Package/bind-server-filter-aaaa
   $(call Package/bind-server)
   DEPENDS:=bind-server
+  EXTRA_DEPENDS:=bind-server (=$(PKG_VERSION)-$(PKG_RELEASE))
   TITLE+= filter AAAA plugin
 endef
 
@@ -98,7 +101,7 @@ endef
 define Package/bind-tools
   $(call Package/bind/Default)
   TITLE+= administration tools (all)
-	DEPENDS:= \
+  DEPENDS:= \
 	+bind-check \
 	+bind-dig \
 	+bind-nslookup \
@@ -106,6 +109,14 @@ define Package/bind-tools
 	+bind-host \
 	+bind-rndc \
 	+bind-ddns-confgen
+  EXTRA_DEPENDS:= \
+	bind-check (=$(PKG_VERSION)-$(PKG_RELEASE)), \
+	bind-dig (=$(PKG_VERSION)-$(PKG_RELEASE)), \
+	bind-nslookup (=$(PKG_VERSION)-$(PKG_RELEASE)), \
+	bind-dnssec (=$(PKG_VERSION)-$(PKG_RELEASE)), \
+	bind-host (=$(PKG_VERSION)-$(PKG_RELEASE)), \
+	bind-rndc (=$(PKG_VERSION)-$(PKG_RELEASE)), \
+	bind-ddns-confgen (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/bind-rndc

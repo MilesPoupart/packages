@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=git
-PKG_VERSION:=2.51.2
+PKG_VERSION:=2.55.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@KERNEL/software/scm/git/
-PKG_HASH:=233d7143a2d58e60755eee9b76f559ec73ea2b3c297f5b503162ace95966b4e3
+PKG_HASH:=457fdb04dc8728e007d4688695e6912e6f680727920f2a40bf11eacc17505357
 
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=COPYING
@@ -98,6 +98,7 @@ MAKE_FLAGS := \
 	NO_NSEC="YesPlease" \
 	NO_PERL="YesPlease" \
 	NO_PYTHON="YesPlease" \
+	NO_RUST="YesPlease" \
 	NO_TCLTK="YesPlease" \
 	NO_INSTALL_HARDLINKS="yes" \
 	gitwebdir="/www/cgi-bin" \

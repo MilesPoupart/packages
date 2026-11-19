@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=openlist
-PKG_VERSION:=4.1.6
+PKG_VERSION:=4.2.7
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/OpenListTeam/OpenList/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=9cb26d5a41a9df56a6c937bc37a572ff104e2d5a72c0ec8813273f2e67c0a092
+PKG_HASH:=5d2201596a81e85146eb8aec4028f66aacff65945fef5936193cbd41fc7e68b5
 PKG_BUILD_DIR:=$(BUILD_DIR)/OpenList-$(PKG_VERSION)
 
 PKG_LICENSE:=AGPL-3.0-only
@@ -36,7 +36,7 @@ define Package/openlist
   SECTION:=net
   CATEGORY:=Network
   TITLE:=A file list program that supports multiple storage
-  URL:=https://openlist.team/
+  URL:=https://oplist.org
   DEPENDS:=$(GO_ARCH_DEPENDS) +ca-bundle
 endef
 
@@ -50,13 +50,13 @@ define Package/openlist/conffiles
 /etc/config/openlist
 endef
 
-FRONTEND_VERSION:=4.1.6
+FRONTEND_VERSION:=4.2.7
 FRONTEND_FILE:=$(PKG_NAME)-frontend-dist-v$(FRONTEND_VERSION).tar.gz
 define Download/openlist-frontend
 	URL:=https://github.com/OpenListTeam/OpenList-Frontend/releases/download/v$(FRONTEND_VERSION)/
 	URL_FILE:=$(FRONTEND_FILE)
 	FILE:=$(FRONTEND_FILE)
-	HASH:=0f9933449040e1253f04d4ed79aa62783a5d817c884495b63f99c7207012d1b8
+	HASH:=88aba5260646ed784847a11e473880d749b17b80af53caf895fe1f31f36aa3e3
 endef
 
 define Build/Prepare
